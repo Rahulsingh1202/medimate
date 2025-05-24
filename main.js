@@ -1,49 +1,59 @@
-// Complete Enhanced JavaScript for Mental Health Chatbot Website
-// main.js - Pure Botpress Integration (No Demo Chat)
+// Enhanced JavaScript for Responsive Mental Health Chatbot Website
+// main.js - Responsive Navigation + Botpress Integration
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🧠 MindBot Website Initialized with Botpress');
+    console.log('🧠 MediMate Responsive Website Initialized');
     
     // Initialize all functionality
-    initMobileNavigation();
+    initResponsiveNavigation();
     initSmoothScrolling();
     initBotpressIntegration();
     initStatsCounter();
     initScrollAnimations();
     initNavbarScrollEffect();
-    initFormEnhancements();
-    initParticleAnimation();
-    initThemeToggle();
     initAccessibilityFeatures();
-    initServiceWorker();
     
     // Add loading animation
     showLoadingComplete();
 });
 
 // ===============================
-// Mobile Navigation System
+// Responsive Mobile Navigation System
 // ===============================
-function initMobileNavigation() {
+function initResponsiveNavigation() {
     const hamburger = document.getElementById('hamburger');
-    const navbar = document.getElementById('navbar') || document.querySelector('.navbar');
-    const navMenu = document.getElementById('nav-menu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const navbar = document.getElementById('navbar');
     
-    if (hamburger) {
+    if (hamburger && mobileMenu) {
         hamburger.addEventListener('click', toggleMobileMenu);
         
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && 
-                !navbar?.contains(e.target) && 
-                hamburger.classList.contains('active')) {
-                closeMobileMenu();
-            }
+        // Close menu when clicking overlay
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Close menu when clicking on nav links
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
         
         // Close menu on window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+        
+        // Prevent menu from closing when clicking inside it
+        mobileMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // ESC key to close mobile menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 closeMobileMenu();
             }
         });
@@ -56,10 +66,12 @@ function initMobileNavigation() {
 
 function toggleMobileMenu() {
     const hamburger = document.getElementById('hamburger');
-    const navbar = document.getElementById('navbar') || document.querySelector('.navbar');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
     
     hamburger?.classList.toggle('active');
-    navbar?.classList.toggle('active');
+    mobileMenu?.classList.toggle('active');
+    menuOverlay?.classList.toggle('active');
     
     // Update aria attributes for accessibility
     const isActive = hamburger?.classList.contains('active');
@@ -71,17 +83,19 @@ function toggleMobileMenu() {
 
 function closeMobileMenu() {
     const hamburger = document.getElementById('hamburger');
-    const navbar = document.getElementById('navbar') || document.querySelector('.navbar');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
     
     hamburger?.classList.remove('active');
-    navbar?.classList.remove('active');
+    mobileMenu?.classList.remove('active');
+    menuOverlay?.classList.remove('active');
     hamburger?.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
 }
 
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
     
     let currentSection = '';
     const scrollPosition = window.pageYOffset + 200;
@@ -122,7 +136,7 @@ function handleSmoothScroll(e) {
     const targetElement = document.getElementById(targetId);
     
     if (targetElement) {
-        const offsetTop = targetElement.offsetTop - 100; // Account for navbar
+        const offsetTop = targetElement.offsetTop - 80; // Account for navbar height
         
         window.scrollTo({
             top: offsetTop,
@@ -187,9 +201,6 @@ function initBotpressIntegration() {
     // Wait for Botpress to load
     waitForBotpress();
     
-    // Replace demo chat section with Botpress info
-    replaceDemoChatWithBotpress();
-    
     // Add Botpress event listeners
     addBotpressEventListeners();
     
@@ -207,7 +218,6 @@ function waitForBotpress() {
         if (window.botpressWebChat) {
             console.log('✅ Botpress WebChat loaded successfully');
             setupBotpressCustomization();
-            updateBotpressStatus('ready');
             return;
         }
         
@@ -215,7 +225,6 @@ function waitForBotpress() {
             setTimeout(checkBotpress, 100);
         } else {
             console.warn('⚠️ Botpress loading timeout');
-            updateBotpressStatus('timeout');
         }
     };
     
@@ -224,27 +233,6 @@ function waitForBotpress() {
 
 function setupBotpressCustomization() {
     try {
-        // Customize Botpress appearance
-        if (window.botpressWebChat.configure) {
-            window.botpressWebChat.configure({
-                composerPlaceholder: "Hi! I'm here to support your mental health journey. How are you feeling today? 💙",
-                botName: "MindBot Assistant",
-                botAvatarUrl: "", // Add your bot avatar URL if needed
-                enableReset: true,
-                enableTranscriptDownload: false,
-                className: "mindbot-chat",
-                containerWidth: "100%",
-                layoutWidth: "100%",
-                hideWidget: false,
-                showCloseButton: true,
-                showConversationButton: false,
-                enableConversationDeletion: true,
-                enableArrowNavigation: true,
-                closeOnEscape: true,
-                showPoweredBy: false
-            });
-        }
-        
         // Apply custom styling to Botpress
         addBotpressCustomCSS();
         
@@ -256,319 +244,114 @@ function setupBotpressCustomization() {
 }
 
 function addBotpressCustomCSS() {
-    const style = document.createElement('style');
-    style.id = 'botpress-custom-styles';
-    style.textContent = `
-        /* Botpress Custom Styling */
-        .bpw-layout {
-            border-radius: 16px !important;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2) !important;
-            border: 1px solid var(--border-color) !important;
-        }
-        
-        .bpw-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-            color: white !important;
-            border-radius: 16px 16px 0 0 !important;
-        }
-        
-        .bpw-composer {
-            border-radius: 0 0 16px 16px !important;
-            border-top: 1px solid var(--border-color) !important;
-        }
-        
-        .bpw-composer-inner {
-            background: white !important;
-            border-radius: 0 0 16px 16px !important;
-        }
-        
-        .bpw-composer-inner textarea {
-            border-radius: 12px !important;
-            border: 2px solid var(--border-color) !important;
-            font-family: var(--font-family) !important;
-        }
-        
-        .bpw-composer-inner textarea:focus {
-            border-color: var(--primary-color) !important;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
-        }
-        
-        .bpw-send-button {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-            border-radius: 50% !important;
-            width: 36px !important;
-            height: 36px !important;
-        }
-        
-        .bpw-send-button:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
-        }
-        
-        .bpw-from-bot .bpw-message-bubble {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-            color: white !important;
-            border-radius: 18px 18px 18px 4px !important;
-        }
-        
-        .bpw-from-user .bpw-message-bubble {
-            background: var(--bg-secondary) !important;
-            color: var(--text-primary) !important;
-            border-radius: 18px 18px 4px 18px !important;
-        }
-        
-        .bpw-typing-bubble {
-            background: var(--bg-secondary) !important;
-        }
-        
-        .bpw-chat-container {
-            font-family: var(--font-family) !important;
-        }
-        
-        /* Floating Button Customization */
-        .bpw-widget-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3) !important;
-            width: 60px !important;
-            height: 60px !important;
-            border-radius: 50% !important;
-        }
-        
-        .bpw-widget-btn:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4) !important;
-        }
-        
-        .bpw-widget-btn svg {
-            width: 24px !important;
-            height: 24px !important;
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
+    if (!document.querySelector('#botpress-custom-styles')) {
+        const style = document.createElement('style');
+        style.id = 'botpress-custom-styles';
+        style.textContent = `
+            /* Botpress Custom Styling */
             .bpw-layout {
-                border-radius: 0 !important;
-                height: 100vh !important;
-                width: 100vw !important;
+                border-radius: 16px !important;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.2) !important;
+                border: 1px solid var(--border-color) !important;
             }
             
             .bpw-header {
-                border-radius: 0 !important;
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+                color: white !important;
+                border-radius: 16px 16px 0 0 !important;
+            }
+            
+            .bpw-composer {
+                border-radius: 0 0 16px 16px !important;
+                border-top: 1px solid var(--border-color) !important;
             }
             
             .bpw-composer-inner {
-                border-radius: 0 !important;
-            }
-        }
-    `;
-    
-    document.head.appendChild(style);
-}
-
-function replaceDemoChatWithBotpress() {
-    const demoSection = document.querySelector('.demo-section');
-    if (demoSection) {
-        const chatContainer = demoSection.querySelector('.chat-container');
-        if (chatContainer) {
-            // Replace demo chat with Botpress integration info
-            chatContainer.innerHTML = `
-                <div class="botpress-integration">
-                    <div class="botpress-header">
-                        <div class="botpress-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="botpress-info">
-                            <h4>AI Mental Health Assistant</h4>
-                            <span class="botpress-status" id="botpressStatus">
-                                <i class="fas fa-circle"></i>
-                                Initializing...
-                            </span>
-                        </div>
-                    </div>
-                    <div class="botpress-description">
-                        <p>Our AI assistant is powered by advanced natural language processing and is specially trained for mental health support.</p>
-                        <div class="botpress-features">
-                            <div class="feature-item">
-                                <i class="fas fa-brain"></i>
-                                <span>AI-Powered Responses</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-heart"></i>
-                                <span>Empathetic Support</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>Confidential & Secure</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Available 24/7</span>
-                            </div>
-                        </div>
-                        <button class="start-chat-btn" onclick="startChat()">
-                            <i class="fas fa-comments"></i>
-                            Start AI Conversation
-                        </button>
-                        <p class="chat-note">
-                            <i class="fas fa-info-circle"></i>
-                            Click the button above or use the chat widget in the bottom right corner
-                        </p>
-                    </div>
-                </div>
-            `;
-            
-            // Add custom styling for the Botpress integration section
-            addBotpressIntegrationCSS();
-        }
-    }
-}
-
-function addBotpressIntegrationCSS() {
-    if (!document.querySelector('#botpress-integration-styles')) {
-        const style = document.createElement('style');
-        style.id = 'botpress-integration-styles';
-        style.textContent = `
-            .botpress-integration {
-                background: white;
-                border-radius: var(--border-radius);
-                box-shadow: var(--shadow-medium);
-                overflow: hidden;
-                max-width: 400px;
-                margin: 0 auto;
+                background: white !important;
+                border-radius: 0 0 16px 16px !important;
             }
             
-            .botpress-header {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: white;
-                padding: 1.5rem;
-                display: flex;
-                align-items: center;
-                gap: 1rem;
+            .bpw-composer-inner textarea {
+                border-radius: 12px !important;
+                border: 2px solid var(--border-color) !important;
+                font-family: var(--font-family) !important;
             }
             
-            .botpress-avatar {
-                width: 50px;
-                height: 50px;
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5rem;
+            .bpw-composer-inner textarea:focus {
+                border-color: var(--primary-color) !important;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
             }
             
-            .botpress-info h4 {
-                margin: 0 0 0.5rem 0;
-                font-weight: 600;
-                font-size: 1.1rem;
+            .bpw-send-button {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+                border-radius: 50% !important;
+                width: 36px !important;
+                height: 36px !important;
             }
             
-            .botpress-status {
-                font-size: 0.9rem;
-                opacity: 0.9;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
+            .bpw-send-button:hover {
+                transform: scale(1.1) !important;
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
             }
             
-            .botpress-status i {
-                font-size: 0.7rem;
-                animation: pulse 2s infinite;
+            .bpw-from-bot .bpw-message-bubble {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+                color: white !important;
+                border-radius: 18px 18px 18px 4px !important;
             }
             
-            .botpress-description {
-                padding: 1.5rem;
+            .bpw-from-user .bpw-message-bubble {
+                background: var(--bg-secondary) !important;
+                color: var(--text-primary) !important;
+                border-radius: 18px 18px 4px 18px !important;
             }
             
-            .botpress-description p {
-                color: var(--text-secondary);
-                margin-bottom: 1.5rem;
-                line-height: 1.6;
+            .bpw-typing-bubble {
+                background: var(--bg-secondary) !important;
             }
             
-            .botpress-features {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-                margin-bottom: 2rem;
+            .bpw-chat-container {
+                font-family: var(--font-family) !important;
             }
             
-            .feature-item {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                font-size: 0.9rem;
-                color: var(--text-primary);
+            /* Floating Button Customization */
+            .bpw-widget-btn {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3) !important;
+                width: 60px !important;
+                height: 60px !important;
+                border-radius: 50% !important;
             }
             
-            .feature-item i {
-                color: var(--primary-color);
-                width: 16px;
+            .bpw-widget-btn:hover {
+                transform: scale(1.1) !important;
+                box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4) !important;
             }
             
-            .start-chat-btn {
-                width: 100%;
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: white;
-                border: none;
-                padding: 1rem;
-                border-radius: 12px;
-                font-size: 1.1rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-                margin-bottom: 1rem;
+            .bpw-widget-btn svg {
+                width: 24px !important;
+                height: 24px !important;
             }
             
-            .start-chat-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            /* Mobile Responsive */
+            @media (max-width: 768px) {
+                .bpw-layout {
+                    border-radius: 0 !important;
+                    height: 100vh !important;
+                    width: 100vw !important;
+                }
+                
+                .bpw-header {
+                    border-radius: 0 !important;
+                }
+                
+                .bpw-composer-inner {
+                    border-radius: 0 !important;
+                }
             }
-            
-            .chat-note {
-                text-align: center;
-                font-size: 0.8rem;
-                color: var(--text-secondary);
-                margin: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-            }
-            
-            .chat-note i {
-                color: var(--primary-color);
-            }
-            
-            /* Status Colors */
-            .status-initializing i { color: #ffa726; }
-            .status-ready i { color: #4CAF50; }
-            .status-error i { color: #f44336; }
         `;
-        document.head.appendChild(style);
-    }
-}
-
-function updateBotpressStatus(status) {
-    const statusElement = document.getElementById('botpressStatus');
-    if (statusElement) {
-        statusElement.className = `botpress-status status-${status}`;
         
-        switch (status) {
-            case 'ready':
-                statusElement.innerHTML = '<i class="fas fa-circle"></i> AI Assistant Ready';
-                break;
-            case 'error':
-            case 'timeout':
-                statusElement.innerHTML = '<i class="fas fa-circle"></i> Connection Issue';
-                break;
-            default:
-                statusElement.innerHTML = '<i class="fas fa-circle"></i> Initializing...';
-        }
+        document.head.appendChild(style);
     }
 }
 
@@ -584,8 +367,8 @@ function addBotpressEventListeners() {
 }
 
 function styleChatButtons() {
-    // Style all chat-related buttons
-    const chatButtons = document.querySelectorAll('[onclick*="startChat"], .start-chat-btn');
+    // Style any remaining chat-related buttons
+    const chatButtons = document.querySelectorAll('.chat-related-btn');
     chatButtons.forEach(button => {
         button.addEventListener('mouseenter', () => {
             button.style.transform = 'translateY(-2px)';
@@ -598,20 +381,10 @@ function styleChatButtons() {
 }
 
 // ===============================
-// Main Chat Function (Pure Botpress)
+// Main Chat Function (Botpress Integration Only)
 // ===============================
-function startChat() {
-   // Wait until DOM is fully loaded
-   document.addEventListener("DOMContentLoaded", function () {
-      const chatButton = document.querySelector(".bpReset.bpFabContainer");
-      if (chatButton) {
-         chatButton.click();
-      } else {
-         console.error("Chat button not found.");
-      }
-   });
-}
-
+// Note: Botpress chat widget will be available automatically
+// Users can access chat through the floating Botpress widget
 
 // ===============================
 // Statistics Counter Animation
@@ -695,10 +468,8 @@ function initScrollAnimations() {
     // Observe elements for animation
     const animatedElements = document.querySelectorAll(`
         .feature-card, 
-        .info-card, 
-        .demo-content > *, 
-        .cta-content,
         .section-header,
+        .cta-content,
         .hero-content > *
     `);
     
@@ -726,349 +497,12 @@ function initNavbarScrollEffect() {
             } else {
                 navbar.classList.remove('scrolled');
             }
-            
-            // Hide/show navbar on scroll direction (mobile)
-            if (window.innerWidth <= 768) {
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    navbar.style.transform = 'translateX(-100%)';
-                } else {
-                    navbar.style.transform = 'translateX(0)';
-                }
-            }
         }
         
         lastScrollTop = scrollTop;
     }, 10);
     
     window.addEventListener('scroll', handleScroll);
-}
-
-// ===============================
-// Enhanced Form System
-// ===============================
-function initFormEnhancements() {
-    const forms = document.querySelectorAll('form');
-    const formControls = document.querySelectorAll('.form-control');
-    
-    // Enhanced form validation
-    formControls.forEach(control => {
-        // Focus effects
-        control.addEventListener('focus', function() {
-            this.parentElement.style.transform = 'translateY(-2px)';
-            this.parentElement.style.transition = 'transform 0.3s ease';
-            this.classList.add('focused');
-        });
-        
-        control.addEventListener('blur', function() {
-            this.parentElement.style.transform = 'translateY(0)';
-            this.classList.remove('focused');
-            validateField(this);
-        });
-        
-        // Real-time validation
-        control.addEventListener('input', function() {
-            if (this.value.trim() !== '') {
-                validateField(this);
-            }
-            
-            // Auto-resize textareas
-            if (this.tagName === 'TEXTAREA') {
-                this.style.height = 'auto';
-                this.style.height = this.scrollHeight + 'px';
-            }
-        });
-    });
-    
-    // Form submission handling
-    forms.forEach(form => {
-        form.addEventListener('submit', handleFormSubmission);
-    });
-    
-    // Special validation for email fields
-    const emailFields = document.querySelectorAll('input[type="email"]');
-    emailFields.forEach(field => {
-        field.addEventListener('blur', function() {
-            validateEmail(this);
-        });
-    });
-}
-
-function validateField(field) {
-    const isValid = field.checkValidity() && field.value.trim() !== '';
-    const isRequired = field.hasAttribute('required');
-    const isEmpty = field.value.trim() === '';
-    
-    // Remove existing validation classes
-    field.classList.remove('valid', 'invalid');
-    
-    if (isValid) {
-        field.classList.add('valid');
-        field.style.borderColor = 'var(--success-color)';
-        field.style.boxShadow = '0 0 0 4px rgba(76, 175, 80, 0.1)';
-    } else if (isEmpty && isRequired) {
-        field.classList.add('invalid');
-        field.style.borderColor = 'var(--error-color)';
-        field.style.boxShadow = '0 0 0 4px rgba(244, 67, 54, 0.1)';
-    } else {
-        field.style.borderColor = 'var(--border-color)';
-        field.style.boxShadow = 'none';
-    }
-    
-    return isValid;
-}
-
-function validateEmail(emailField) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(emailField.value);
-    
-    if (emailField.value && !isValid) {
-        emailField.classList.add('invalid');
-        emailField.style.borderColor = 'var(--error-color)';
-        emailField.style.boxShadow = '0 0 0 4px rgba(244, 67, 54, 0.1)';
-    } else if (isValid) {
-        emailField.classList.remove('invalid');
-        emailField.classList.add('valid');
-        emailField.style.borderColor = 'var(--success-color)';
-        emailField.style.boxShadow = '0 0 0 4px rgba(76, 175, 80, 0.1)';
-    }
-    
-    return isValid;
-}
-
-function handleFormSubmission(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formControls = form.querySelectorAll('.form-control');
-    let isFormValid = true;
-    
-    // Validate all fields
-    formControls.forEach(field => {
-        if (!validateField(field)) {
-            isFormValid = false;
-        }
-    });
-    
-    if (isFormValid) {
-        // Handle contact form submission
-        if (form.id === 'contactForm') {
-            handleContactFormSubmission(form);
-        }
-    } else {
-        // Show error message
-        showNotification('Please correct the errors and try again.', 'error');
-    }
-}
-
-function handleContactFormSubmission(form) {
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    
-    // Create email content
-    const emailSubject = `🧠 MindBot Contact: ${data.subject} - ${data.firstName} ${data.lastName}`;
-    const emailBody = `
-Hello Rahul Singh,
-
-You have received a new message through your Mental Health ChatBot website contact form.
-
-📋 CONTACT DETAILS:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 Name: ${data.firstName} ${data.lastName}
-📧 Email: ${data.email}
-📞 Phone: ${data.phone || 'Not provided'}
-🏷️ Subject: ${data.subject}
-
-💬 MESSAGE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${data.message}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 Sent: ${new Date().toLocaleString()}
-🌐 Source: MindBot Website Contact Form
-🎯 Priority: ${data.subject.includes('Crisis') ? 'HIGH - URGENT' : 'Normal'}
-
-Best regards,
-${data.firstName} ${data.lastName}
-    `.trim();
-    
-    // Create mailto link
-    const mailtoLink = `mailto:rahulsingh12022002@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Show success message with animation
-    const successMessage = document.getElementById('successMessage');
-    const submitBtn = form.querySelector('.submit-btn');
-    
-    // Change button state
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    submitBtn.disabled = true;
-    
-    // Show success message after delay
-    setTimeout(() => {
-        if (successMessage) {
-            successMessage.style.display = 'block';
-            successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-        
-        // Reset button
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-        submitBtn.style.background = 'linear-gradient(135deg, var(--success-color), #45a049)';
-        
-        // Open email client
-        setTimeout(() => {
-            window.location.href = mailtoLink;
-        }, 500);
-        
-    }, 1000);
-    
-    // Reset form after delay
-    setTimeout(() => {
-        form.reset();
-        if (successMessage) {
-            successMessage.style.display = 'none';
-        }
-        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        submitBtn.style.background = 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))';
-        submitBtn.disabled = false;
-        
-        // Reset all field styles
-        form.querySelectorAll('.form-control').forEach(field => {
-            field.style.borderColor = 'var(--border-color)';
-            field.style.boxShadow = 'none';
-            field.classList.remove('valid', 'invalid');
-        });
-    }, 5000);
-}
-
-// ===============================
-// Particle Animation System
-// ===============================
-function initParticleAnimation() {
-    createFloatingParticles();
-}
-
-function createFloatingParticles() {
-    const particleContainer = document.querySelector('.animated-bg');
-    if (!particleContainer) return;
-    
-    const particleCount = 15;
-    
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'floating-particle';
-        
-        const size = Math.random() * 4 + 2;
-        const animationDuration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
-        
-        particle.style.cssText = `
-            position: absolute;
-            width: ${size}px;
-            height: ${size}px;
-            background: rgba(102, 126, 234, 0.2);
-            border-radius: 50%;
-            top: ${Math.random() * 100}%;
-            left: ${Math.random() * 100}%;
-            animation: floatParticle ${animationDuration}s ease-in-out infinite;
-            animation-delay: ${delay}s;
-            pointer-events: none;
-        `;
-        
-        particleContainer.appendChild(particle);
-    }
-    
-    // Add particle animation keyframes
-    if (!document.querySelector('#particle-styles')) {
-        const style = document.createElement('style');
-        style.id = 'particle-styles';
-        style.textContent = `
-            @keyframes floatParticle {
-                0%, 100% {
-                    transform: translate(0, 0) rotate(0deg);
-                    opacity: 0.2;
-                }
-                25% {
-                    transform: translate(20px, -30px) rotate(90deg);
-                    opacity: 0.5;
-                }
-                50% {
-                    transform: translate(-15px, -60px) rotate(180deg);
-                    opacity: 0.8;
-                }
-                75% {
-                    transform: translate(-35px, -30px) rotate(270deg);
-                    opacity: 0.5;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-}
-
-// ===============================
-// Theme Toggle System
-// ===============================
-function initThemeToggle() {
-    const themeToggle = createThemeToggle();
-    document.body.appendChild(themeToggle);
-    
-    // Load saved theme
-    const savedTheme = localStorage.getItem('mindbot-theme') || 'light';
-    applyTheme(savedTheme);
-}
-
-function createThemeToggle() {
-    const toggle = document.createElement('button');
-    toggle.className = 'theme-toggle';
-    toggle.innerHTML = '<i class="fas fa-moon"></i>';
-    toggle.setAttribute('aria-label', 'Toggle dark mode');
-    toggle.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 80px;
-        width: 50px;
-        height: 50px;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid var(--border-color);
-        border-radius: 50%;
-        cursor: pointer;
-        z-index: 1001;
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow-medium);
-        backdrop-filter: blur(10px);
-    `;
-    
-    toggle.addEventListener('click', toggleTheme);
-    
-    return toggle;
-}
-
-function toggleTheme() {
-    const currentTheme = document.body.getAttribute('data-theme') || 'light';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    applyTheme(newTheme);
-    localStorage.setItem('mindbot-theme', newTheme);
-}
-
-function applyTheme(theme) {
-    document.body.setAttribute('data-theme', theme);
-    const toggle = document.querySelector('.theme-toggle');
-    
-    if (theme === 'dark') {
-        toggle.innerHTML = '<i class="fas fa-sun"></i>';
-        document.documentElement.style.setProperty('--bg-primary', '#1a1a1a');
-        document.documentElement.style.setProperty('--bg-secondary', '#2d2d2d');
-        document.documentElement.style.setProperty('--text-primary', '#ffffff');
-        document.documentElement.style.setProperty('--text-secondary', '#cccccc');
-        document.documentElement.style.setProperty('--border-color', '#404040');
-    } else {
-        toggle.innerHTML = '<i class="fas fa-moon"></i>';
-        document.documentElement.style.setProperty('--bg-primary', '#ffffff');
-        document.documentElement.style.setProperty('--bg-secondary', '#f8f9fa');
-        document.documentElement.style.setProperty('--text-primary', '#2c3e50');
-        document.documentElement.style.setProperty('--text-secondary', '#7f8c8d');
-        document.documentElement.style.setProperty('--border-color', '#e9ecef');
-    }
 }
 
 // ===============================
@@ -1181,7 +615,7 @@ function addReducedMotionSupport() {
 }
 
 function handleTabTrap(e) {
-    const mobileMenu = document.querySelector('.navbar.active');
+    const mobileMenu = document.querySelector('.mobile-menu.active');
     if (!mobileMenu) return;
     
     const focusableElements = mobileMenu.querySelectorAll(
@@ -1197,20 +631,6 @@ function handleTabTrap(e) {
     } else if (!e.shiftKey && document.activeElement === lastElement) {
         e.preventDefault();
         firstElement.focus();
-    }
-}
-
-// ===============================
-// Service Worker & PWA Features
-// ===============================
-function initServiceWorker() {
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            // Register service worker when ready
-            // navigator.serviceWorker.register('/sw.js')
-            //     .then(registration => console.log('SW registered'))
-            //     .catch(error => console.log('SW registration failed'));
-        });
     }
 }
 
@@ -1488,82 +908,870 @@ addProgressBar();
 // ===============================
 // Export Functions for Global Use
 // ===============================
-window.startChat = startChat;
 window.showNotification = showNotification;
-window.toggleTheme = toggleTheme;
 window.sendBotpressEvent = sendBotpressEvent;
 window.sendBotpressPayload = sendBotpressPayload;
 window.hideBotpressChat = hideBotpressChat;
 window.showBotpressChat = showBotpressChat;
 
-// ===============================
-// Initialize Botpress Detection
-// ===============================
-function initBotpressDetection() {
-    let attempts = 0;
-    const maxAttempts = 100; // 10 seconds max wait
-    
-    const checkBotpress = () => {
-        attempts++;
-        
-        if (window.botpressWebChat) {
-            console.log('✅ Botpress WebChat detected and ready');
-            setupBotpressCustomization();
-            updateBotpressStatus('ready');
-            
-            // Enable all chat functionality
-            document.querySelectorAll('[onclick*="startChat"]').forEach(button => {
-                button.style.opacity = '1';
-                button.style.pointerEvents = 'auto';
-                button.title = 'Click to start AI conversation';
-            });
-            
-            return;
-        }
-        
-        if (attempts < maxAttempts) {
-            setTimeout(checkBotpress, 100);
-        } else {
-            console.warn('⚠️ Botpress loading timeout - using fallback mode');
-            updateBotpressStatus('timeout');
-            
-            // Update buttons to show fallback mode
-            document.querySelectorAll('[onclick*="startChat"]').forEach(button => {
-                button.title = 'Chat temporarily unavailable - click to try again';
-            });
-        }
-    };
-    
-    // Start checking immediately
-    checkBotpress();
-}
-
-// Start Botpress detection
-initBotpressDetection();
-
 // Console welcome message
 console.log(`
-🧠 MindBot Website - Pure Botpress Integration
+🧠 MediMate Responsive Website - Botpress Integration
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✨ Enhanced Mental Health Chatbot Platform
-🤖 Integration: Pure Botpress (No Demo Chat)
-🎯 Built by: Rahul Singh & Mayank Dubey
-📧 Contact: rahulsingh12022002@gmail.com
-📱 Phone: +91 6390864564
+🎯 Responsive Navigation: Mobile & Desktop
+🤖 Integration: Botpress Widget (Floating Chat)
+📱 Built by: Utkarsh Singh & Md. Nasheet Khan
+📧 Contact: utkarshsingh20250@gmail.com
+📞 Phone: +91 7985897980
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Available Functions:
-• startChat() - Open Botpress AI chat
 • sendBotpressEvent(type, payload) - Send Botpress event
 • sendBotpressPayload(payload) - Send Botpress payload
 • showBotpressChat() - Show Botpress widget
 • hideBotpressChat() - Hide Botpress widget
 • showNotification(message, type) - Show notification
-• toggleTheme() - Switch light/dark mode
 
-Your Botpress chatbot is the primary AI interface! 🚀
+Chat available via Botpress floating widget! 🚀
 `);
 
 // ===============================
-// End of main.js - Pure Botpress Integration
+// End of main.js - Responsive Navigation + Botpress
+// ===============================
+
+// ===============================
+// Fat Interactive Walking Bot for MediMate
+// Enhanced with mouse tracking and no flips
+// Version: 2.0 - Fat Edition
+// ===============================
+
+function initWalkingBot() {
+    // Create walking bot HTML structure
+    const botHTML = `
+        <div class="walking-bot" id="walkingBot">
+            <div class="bot-body">
+                <div class="bot-head">
+                    <div class="bot-eyes">
+                        <div class="eye"></div>
+                        <div class="eye"></div>
+                    </div>
+                    <div class="bot-mouth"></div>
+                </div>
+                <div class="bot-arms">
+                    <div class="arm arm-left"></div>
+                    <div class="arm arm-right"></div>
+                </div>
+                <div class="bot-legs">
+                    <div class="leg leg-left"></div>
+                    <div class="leg leg-right"></div>
+                </div>
+            </div>
+            <div class="speech-bubble" id="speechBubble">Hi! I'm Fat MediBot! 🤗</div>
+        </div>
+    `;
+
+    // Add bot to page
+    document.body.insertAdjacentHTML('beforeend', botHTML);
+
+    // Add CSS styles
+    addWalkingBotStyles();
+
+    // Initialize bot behavior
+    window.walkingBot = new WalkingBot();
+}
+
+function addWalkingBotStyles() {
+    const styles = `
+        <style id="walking-bot-styles">
+        /* Fat Walking Bot Styles */
+        .walking-bot {
+            position: fixed;
+            width: 100px;
+            height: 90px;
+            z-index: 998;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+            user-select: none;
+            pointer-events: all;
+        }
+
+        .bot-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-origin: center bottom;
+            animation: botBobFloat 3s ease-in-out infinite;
+        }
+
+        .bot-head {
+            width: 70px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 60% 60% 50% 50%;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 3px solid #ffffff;
+        }
+
+        .bot-eyes {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+        }
+
+        .eye {
+            width: 10px;
+            height: 10px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: relative;
+            animation: botBlink 4s infinite;
+        }
+
+        .eye::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .bot-mouth {
+            position: absolute;
+            top: 38px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 8px;
+            border: 2px solid #ffffff;
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            animation: botSmile 5s infinite;
+        }
+
+        .bot-legs {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .leg {
+            width: 12px;
+            height: 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 6px;
+            border: 2px solid #ffffff;
+            transform-origin: top center;
+        }
+
+        .leg-left {
+            animation: botWalkLeft 0.8s infinite;
+        }
+
+        .leg-right {
+            animation: botWalkRight 0.8s infinite;
+        }
+
+        .bot-arms {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 50px;
+        }
+
+        .arm {
+            width: 8px;
+            height: 22px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+            border: 2px solid #ffffff;
+            transform-origin: top center;
+        }
+
+        .arm-left {
+            animation: botSwingLeft 0.8s infinite;
+        }
+
+        .arm-right {
+            animation: botSwingRight 0.8s infinite;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #333;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            z-index: 999;
+            font-weight: 500;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .heart-effect {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 18px;
+            opacity: 0;
+            pointer-events: none;
+            animation: botHeartFloat 2s ease-out forwards;
+            z-index: 997;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: botSparkleFloat 1.5s ease-out forwards;
+            z-index: 997;
+        }
+
+        /* Eye following mouse */
+        .walking-bot.following-mouse .eye::after {
+            transition: all 0.1s ease;
+        }
+
+        /* Bot Animations */
+        @keyframes botBobFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes botWalkLeft {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-15deg); }
+        }
+
+        @keyframes botWalkRight {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        @keyframes botSwingLeft {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        @keyframes botSwingRight {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-10deg); }
+        }
+
+        @keyframes botBlink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+
+        @keyframes botSmile {
+            0%, 80%, 100% { transform: translateX(-50%) scaleX(1); }
+            85%, 95% { transform: translateX(-50%) scaleX(1.2); }
+        }
+
+        @keyframes botHeartFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.5);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.5);
+            }
+        }
+
+        @keyframes botSparkleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-15px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-30px) scale(0);
+            }
+        }
+
+        /* Walking states */
+        .walking-bot.walking .leg-left,
+        .walking-bot.walking .leg-right,
+        .walking-bot.walking .arm-left,
+        .walking-bot.walking .arm-right {
+            animation-duration: 0.4s;
+        }
+
+        .walking-bot.idle .leg-left,
+        .walking-bot.idle .leg-right,
+        .walking-bot.idle .arm-left,
+        .walking-bot.idle .arm-right {
+            animation: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .walking-bot {
+                width: 80px;
+                height: 75px;
+            }
+            
+            .bot-head {
+                width: 55px;
+                height: 48px;
+            }
+            
+            .bot-eyes {
+                top: 15px;
+                gap: 10px;
+            }
+            
+            .eye {
+                width: 8px;
+                height: 8px;
+            }
+            
+            .eye::after {
+                width: 4px;
+                height: 4px;
+            }
+            
+            .bot-mouth {
+                top: 30px;
+                width: 12px;
+                height: 6px;
+            }
+            
+            .leg {
+                width: 10px;
+                height: 20px;
+            }
+            
+            .arm {
+                width: 6px;
+                height: 18px;
+            }
+            
+            .bot-arms {
+                top: 32px;
+                gap: 38px;
+            }
+        }
+
+        /* Fallback for CSS variables */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+        }
+        </style>
+    `;
+
+    document.head.insertAdjacentHTML('beforeend', styles);
+}
+
+class WalkingBot {
+    constructor() {
+        this.bot = document.getElementById('walkingBot');
+        this.speechBubble = document.getElementById('speechBubble');
+        this.isWalking = true;
+        this.currentX = window.innerWidth / 2;
+        this.currentY = window.innerHeight / 2;
+        this.targetX = this.currentX;
+        this.targetY = this.currentY;
+        this.speed = 1.2;
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.messages = [
+            
+            "Hi there! 👋",
+            "Need mental health support? 💙",
+            "I'm here to help! 🤗",
+            "How are you feeling today? 😊",
+            "You're not alone! 💪",
+            "Take care of yourself! 🌟",
+            "Mental health matters! 🧠",
+            "You're amazing! ✨",
+            "Stay positive! 🌈",
+            "I believe in you! 💖",
+            "Try our AI chat! 🤖",
+            "Welcome to MediMate! 🏥",
+            "Your wellbeing is important! 💝",
+            "I'm watching you! 👀",
+            "Following your mouse! 🖱️",
+            "I love interactions! 💕",
+            "Click me for surprises! 🎉",
+            "I'm your fat friend! 🤗",
+            "Mental health is important! 🧠",
+            "Need someone to talk to? 💬"
+        ];
+        
+        this.init();
+    }
+
+    init() {
+        // Set initial position
+        this.currentX = Math.max(120, Math.min(window.innerWidth - 120, this.currentX));
+        this.currentY = Math.max(120, Math.min(window.innerHeight - 120, this.currentY));
+        this.bot.style.left = this.currentX + 'px';
+        this.bot.style.top = this.currentY + 'px';
+        
+        // Add click event
+        this.bot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.onBotClick();
+        });
+        
+        // Add touch support for mobile
+        this.bot.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.onBotClick();
+        });
+        
+        // Enhanced mouse following behavior
+        document.addEventListener('mousemove', (e) => {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
+            this.updateEyesDirection(e.clientX, e.clientY);
+            
+            // More aggressive mouse following - 15% chance
+            if (Math.random() < 0.15) {
+                this.followMouse(e.clientX, e.clientY);
+            }
+        });
+        
+        // Mouse enter/leave events for interactive behavior
+        document.addEventListener('mouseenter', () => {
+            this.bot.classList.add('following-mouse');
+            if (Math.random() < 0.4) {
+                this.showMessage("I see your mouse! 👀");
+            }
+        });
+        
+        // Click anywhere to make bot come to that location
+        document.addEventListener('click', (e) => {
+            if (e.target !== this.bot && !this.bot.contains(e.target)) {
+                if (Math.random() < 0.6) { // 60% chance to follow clicks
+                    this.setTarget(e.clientX, e.clientY);
+                    this.showMessage("Coming your way! 🏃‍♂️");
+                }
+            }
+        });
+        
+        // Touch follow for mobile
+        document.addEventListener('touchstart', (e) => {
+            if (e.target !== this.bot && !this.bot.contains(e.target)) {
+                if (Math.random() < 0.5) { // 50% chance to follow touch
+                    const touch = e.touches[0];
+                    this.setTarget(touch.clientX, touch.clientY);
+                    this.showMessage("Following your touch! 👆");
+                }
+            }
+        });
+        
+        // Start walking animation
+        this.startWalking();
+        
+        // Reduced random movement - bot prefers following mouse
+        this.randomMovementInterval = setInterval(() => {
+            // Only random movement if mouse hasn't moved recently
+            if (Math.random() < 0.3) {
+                this.randomMovement();
+            }
+        }, 6000 + Math.random() * 4000);
+        
+        // Random messages every 8-15 seconds
+        this.randomMessageInterval = setInterval(() => {
+            this.randomMessage();
+        }, 8000 + Math.random() * 7000);
+        
+        // Window resize handler
+        window.addEventListener('resize', () => this.handleResize());
+        
+        // Show welcome message after 2 seconds
+        setTimeout(() => {
+            this.showMessage("I'm your fat friend MediBot! 🤗");
+        }, 2000);
+    }
+
+    updateEyesDirection(mouseX, mouseY) {
+        const botRect = this.bot.getBoundingClientRect();
+        const botCenterX = botRect.left + botRect.width / 2;
+        const botCenterY = botRect.top + botRect.height / 3; // Eyes are in upper third
+        
+        // Calculate angle to mouse
+        const deltaX = mouseX - botCenterX;
+        const deltaY = mouseY - botCenterY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Limit eye movement
+        const maxMovement = 2;
+        let eyeX = 0;
+        let eyeY = 0;
+        
+        if (distance > 0) {
+            eyeX = Math.max(-maxMovement, Math.min(maxMovement, (deltaX / distance) * maxMovement));
+            eyeY = Math.max(-maxMovement, Math.min(maxMovement, (deltaY / distance) * maxMovement));
+        }
+        
+        // Apply eye movement to both eyes
+        const eyeElements = this.bot.querySelectorAll('.eye');
+        eyeElements.forEach(eye => {
+            const pupil = eye.querySelector('::after');
+            eye.style.setProperty('--eye-offset-x', eyeX + 'px');
+            eye.style.setProperty('--eye-offset-y', eyeY + 'px');
+            
+            // Direct manipulation for better browser support
+            const afterElement = window.getComputedStyle(eye, '::after');
+            if (afterElement) {
+                eye.setAttribute('data-eye-x', eyeX);
+                eye.setAttribute('data-eye-y', eyeY);
+            }
+        });
+    }
+
+    followMouse(mouseX, mouseY) {
+        // Calculate distance to mouse
+        const distance = Math.sqrt(
+            Math.pow(mouseX - this.currentX, 2) + 
+            Math.pow(mouseY - this.currentY, 2)
+        );
+        
+        // Only follow if mouse is reasonably close and not too close
+        if (distance > 150 && distance < 400) {
+            this.setTarget(mouseX, mouseY);
+        }
+    }
+
+    setTarget(x, y) {
+        // Keep bot within screen bounds with bigger margin for fat bot
+        const margin = 120;
+        this.targetX = Math.max(margin, Math.min(window.innerWidth - margin, x));
+        this.targetY = Math.max(margin, Math.min(window.innerHeight - margin, y));
+    }
+
+    startWalking() {
+        this.bot.classList.add('walking');
+        this.bot.classList.remove('idle');
+        this.walkingInterval = setInterval(() => {
+            this.updatePosition();
+        }, 16); // ~60fps
+    }
+
+    stopWalking() {
+        this.bot.classList.remove('walking');
+        this.bot.classList.add('idle');
+        clearInterval(this.walkingInterval);
+    }
+
+    updatePosition() {
+        if (!this.isWalking) return;
+
+        const dx = this.targetX - this.currentX;
+        const dy = this.targetY - this.currentY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > 10) {
+            // Move towards target
+            const moveX = (dx / distance) * this.speed;
+            const moveY = (dy / distance) * this.speed;
+            
+            this.currentX += moveX;
+            this.currentY += moveY;
+            
+            // No flip behavior - bot always faces forward
+        } else {
+            // Reached target, set new random target after a longer delay
+            setTimeout(() => {
+                if (Math.random() < 0.4) { // Less random movement
+                    this.randomMovement();
+                }
+            }, 4000 + Math.random() * 6000);
+        }
+
+        // Update bot position
+        this.bot.style.left = this.currentX + 'px';
+        this.bot.style.top = this.currentY + 'px';
+    }
+
+    randomMovement() {
+        const margin = 120;
+        const maxWidth = window.innerWidth - 2 * margin;
+        const maxHeight = window.innerHeight - 2 * margin;
+        
+        if (maxWidth > 0 && maxHeight > 0) {
+            const newX = margin + Math.random() * maxWidth;
+            const newY = margin + Math.random() * maxHeight;
+            this.setTarget(newX, newY);
+        }
+    }
+
+    onBotClick() {
+        this.showHappiness();
+        this.showRandomMessage();
+        this.createHeartEffect();
+        this.createSparkleEffect();
+        
+        // Enhanced bounce effect for fat bot
+        this.bot.style.transform = 'scale(1.3)';
+        setTimeout(() => {
+            this.bot.style.transform = 'scale(1)';
+        }, 300);
+        
+        // Sometimes trigger Botpress chat
+        if (Math.random() < 0.4) { // 40% chance
+            setTimeout(() => {
+                if (window.botpressWebChat) {
+                    try {
+                        window.botpressWebChat.sendEvent({ type: 'show' });
+                        this.showMessage("Let's chat about your mental health! 💬");
+                    } catch (error) {
+                        console.log('Botpress show failed:', error);
+                    }
+                }
+            }, 1000);
+        }
+    }
+
+    showRandomMessage() {
+        const message = this.messages[Math.floor(Math.random() * this.messages.length)];
+        this.showMessage(message);
+    }
+
+    showMessage(text = "Hi! I'm Fat MediBot! 🤗") {
+        this.speechBubble.textContent = text;
+        this.speechBubble.classList.add('show');
+        
+        setTimeout(() => {
+            this.speechBubble.classList.remove('show');
+        }, 3500);
+    }
+
+    createHeartEffect() {
+        for (let i = 0; i < 4; i++) { // More hearts for fat bot
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart-effect';
+                heart.textContent = '💖';
+                heart.style.left = (this.currentX + Math.random() * 60 - 30) + 'px';
+                heart.style.top = (this.currentY + Math.random() * 60 - 30) + 'px';
+                heart.style.zIndex = '997';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 2000);
+            }, i * 200);
+        }
+    }
+
+    createSparkleEffect() {
+        for (let i = 0; i < 8; i++) { // More sparkles for fat bot
+            setTimeout(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = (this.currentX + Math.random() * 80 - 40) + 'px';
+                sparkle.style.top = (this.currentY + Math.random() * 80 - 40) + 'px';
+                sparkle.style.zIndex = '997';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1500);
+            }, i * 100);
+        }
+    }
+
+    showHappiness() {
+        this.bot.style.filter = 'brightness(1.4) saturate(1.3) drop-shadow(0 0 15px rgba(102, 126, 234, 0.8))';
+        setTimeout(() => {
+            this.bot.style.filter = '';
+        }, 1200);
+    }
+
+    toggleWalking() {
+        this.isWalking = !this.isWalking;
+        if (this.isWalking) {
+            this.startWalking();
+            this.showMessage("I'm walking again! 🚶‍♂️");
+        } else {
+            this.stopWalking();
+            this.showMessage("Taking a fat break! 😴");
+        }
+    }
+
+    teleportToRandomPosition() {
+        const margin = 120;
+        const maxWidth = window.innerWidth - 2 * margin;
+        const maxHeight = window.innerHeight - 2 * margin;
+        
+        if (maxWidth > 0 && maxHeight > 0) {
+            this.currentX = margin + Math.random() * maxWidth;
+            this.currentY = margin + Math.random() * maxHeight;
+            this.bot.style.left = this.currentX + 'px';
+            this.bot.style.top = this.currentY + 'px';
+            
+            // Enhanced sparkle effect on teleport
+            this.createSparkleEffect();
+            this.showMessage("Fat teleport successful! ✨");
+        }
+    }
+
+    handleResize() {
+        // Adjust position if out of bounds
+        const margin = 120;
+        if (this.currentX > window.innerWidth - margin) {
+            this.currentX = window.innerWidth - margin;
+        }
+        if (this.currentY > window.innerHeight - margin) {
+            this.currentY = window.innerHeight - margin;
+        }
+        if (this.currentX < margin) {
+            this.currentX = margin;
+        }
+        if (this.currentY < margin) {
+            this.currentY = margin;
+        }
+        
+        this.bot.style.left = this.currentX + 'px';
+        this.bot.style.top = this.currentY + 'px';
+    }
+
+    randomMessage() {
+        if (Math.random() < 0.25) { // 25% chance
+            this.showRandomMessage();
+        }
+    }
+
+    destroy() {
+        // Cleanup function
+        clearInterval(this.walkingInterval);
+        clearInterval(this.randomMovementInterval);
+        clearInterval(this.randomMessageInterval);
+        this.bot.remove();
+        document.getElementById('walking-bot-styles')?.remove();
+    }
+}
+
+// Utility functions for external control
+function createWalkingBot() {
+    if (!document.getElementById('walkingBot')) {
+        initWalkingBot();
+    }
+}
+
+function removeWalkingBot() {
+    if (window.walkingBot) {
+        window.walkingBot.destroy();
+        window.walkingBot = null;
+    }
+}
+
+function toggleBotWalking() {
+    if (window.walkingBot) {
+        window.walkingBot.toggleWalking();
+    }
+}
+
+function makeBotHappy() {
+    if (window.walkingBot) {
+        window.walkingBot.onBotClick();
+    }
+}
+
+function teleportBot() {
+    if (window.walkingBot) {
+        window.walkingBot.teleportToRandomPosition();
+    }
+}
+
+function sendBotMessage(message) {
+    if (window.walkingBot) {
+        window.walkingBot.showMessage(message);
+    }
+}
+
+// Auto-initialize on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWalkingBot);
+} else {
+    initWalkingBot();
+}
+
+// Export functions
+window.createWalkingBot = createWalkingBot;
+window.removeWalkingBot = removeWalkingBot;
+window.toggleBotWalking = toggleBotWalking;
+window.makeBotHappy = makeBotHappy;
+window.teleportBot = teleportBot;
+window.sendBotMessage = sendBotMessage;
+
+console.log(`
+🤖 Fat MediBot Walking Animation Loaded!
+═══════════════════════════════════════
+✨ Enhanced fat & interactive design
+🖱️ Advanced mouse pointer tracking
+👀 Eyes follow your cursor in real-time
+🎯 60% chance to follow clicks
+📱 Mobile-friendly touch support
+🎮 Control functions available:
+   • toggleBotWalking() - Start/stop walking
+   • makeBotHappy() - Trigger happiness effects
+   • teleportBot() - Random teleportation
+   • sendBotMessage("text") - Custom messages
+   • removeWalkingBot() - Remove completely
+
+Fat Bot Features:
+• 100x90px size (was 80x80px)
+• Eyes track mouse movement
+• No unnecessary flipping
+• Enhanced interactive behaviors
+• 4 hearts & 8 sparkles on click
+• Botpress integration (40% chance)
+`);
+
+// ===============================
+// End of Fat Walking Bot
 // ===============================
