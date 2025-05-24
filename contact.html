@@ -6,7 +6,7 @@
     <title>Contact Us - MediMate | Mental Health Support</title>
     <meta name="description" content="Get in touch with our mental health support team. Professional AI-powered assistance available 24/7.">
     <meta name="keywords" content="contact mental health, AI support, therapy contact, mental wellness">
-    <meta name="author" content="Rahul Singh, Mayank Dubey">
+    <meta name="author" content="Utkarsh Singh, Md. Nasheet Khan">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
@@ -24,43 +24,14 @@
     <link rel="stylesheet" href="assets/css/animations.css">
     
     <style>
-        :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --accent-color: #f093fb;
-            --success-color: #4CAF50;
-            --warning-color: #ff9800;
-            --error-color: #f44336;
-            --text-primary: #2c3e50;
-            --text-secondary: #7f8c8d;
-            --text-light: #ffffff;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-dark: #2c3e50;
-            --border-color: #e9ecef;
-            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
-            --shadow-medium: 0 8px 30px rgba(0,0,0,0.12);
-            --shadow-heavy: 0 20px 60px rgba(0,0,0,0.2);
-            --border-radius: 16px;
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-family-heading: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
         /* Contact Page Specific Styles */
         .contact-page {
-            margin-left: 320px;
+            margin-top: 80px;
             padding: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            min-height: calc(100vh - 80px);
         }
 
         .contact-container {
@@ -352,7 +323,7 @@
         /* Back Button */
         .back-home {
             position: fixed;
-            top: 20px;
+            top: 100px;
             right: 20px;
             background: rgba(255, 255, 255, 0.95);
             color: var(--primary-color);
@@ -410,8 +381,8 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .contact-page {
-                margin-left: 0;
                 padding: 1rem;
+                margin-top: 80px;
             }
             
             .contact-container {
@@ -429,7 +400,7 @@
             }
             
             .back-home {
-                top: 1rem;
+                top: 90px;
                 right: 1rem;
                 padding: 10px 16px;
                 font-size: 0.9rem;
@@ -472,54 +443,36 @@
     <!-- Navigation Bar -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <a href="index.html#home" class="nav-logo">
                 <i class="fas fa-brain"></i>
                 <span>MediMate</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-section">
-                    <h4><i class="fas fa-users"></i> Developers</h4>
-                    <div class="dev-cards">
-                        <div class="dev-card">
-                            <div class="dev-avatar">R</div>
-                            <span>Utkarsh Singh</span>
-                        </div>
-                        <div class="dev-card">
-                            <div class="dev-avatar">M</div>
-                            <span>Md Nasheet Khan</span>
-                        </div>
-                    </div>
-                </div>
+            </a>
+            
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html#home" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="index.html#about" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html" class="nav-link active"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
                 
-                <div class="nav-section">
-                    <h4><i class="fas fa-phone"></i> Contact Info</h4>
-                    <div class="contact-items">
-                        <a href="mailto:rahulsingh12022002@gmail.com" class="contact-item">
+                <div class="nav-cta">
+                    <div class="contact-info">
+                        <a href="mailto:utkarshsingh20250@gmail.com" class="contact-item">
                             <i class="fas fa-envelope"></i>
-                            <span>utkarshsingh20250@gmail.com</span>
+                            <span>Email</span>
                         </a>
-                        <a href="tel:+916390864564" class="contact-item">
+                        <a href="tel:+917985897980" class="contact-item">
                             <i class="fas fa-phone"></i>
-                            <span>+91 7985897980</span>
+                            <span>Call</span>
                         </a>
                     </div>
-                </div>
-                
-                <div class="nav-section">
-                    <h4><i class="fas fa-link"></i> Quick Links</h4>
-                    <div class="nav-links">
-                        <a href="index.html" class="nav-link">
-                            <i class="fas fa-home"></i> Home
-                        </a>
-                        <a href="index.html#about" class="nav-link">
-                            <i class="fas fa-info-circle"></i> About
-                        </a>
-                        <a href="#contact" class="nav-link active">
-                            <i class="fas fa-envelope"></i> Contact
-                        </a>
-                    </div>
+                    <a href="contact.html" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i>
+                        Contact Us
+                    </a>
                 </div>
             </div>
+            
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -527,6 +480,64 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <div class="mobile-nav-section">
+                <h4><i class="fas fa-link"></i> Quick Links</h4>
+                <div class="mobile-nav-links">
+                    <a href="index.html#home" class="mobile-nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="index.html#about" class="mobile-nav-link">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                    <a href="contact.html" class="mobile-nav-link active">
+                        <i class="fas fa-envelope"></i> Contact
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mobile-nav-section">
+                <h4><i class="fas fa-users"></i> Developers</h4>
+                <div class="dev-cards">
+                    <div class="dev-card">
+                        <div class="dev-avatar">U</div>
+                        <span>Utkarsh Singh</span>
+                    </div>
+                    <div class="dev-card">
+                        <div class="dev-avatar">M</div>
+                        <span>Md Nasheet Khan</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mobile-nav-section">
+                <h4><i class="fas fa-phone"></i> Contact Info</h4>
+                <div class="mobile-contact-items">
+                    <a href="mailto:utkarshsingh20250@gmail.com" class="mobile-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>utkarshsingh20250@gmail.com</span>
+                    </a>
+                    <a href="tel:+917985897980" class="mobile-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+91 7985897980</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mobile-nav-section">
+                <a href="contact.html" class="btn btn-primary btn-large" style="width: 100%; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-envelope"></i>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Back to Home -->
     <a href="index.html" class="back-home">
@@ -556,14 +567,14 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                     <h4>Email Us</h4>
-                    <p><a href="mailto:rahulsingh12022002@gmail.com">utkarshsingh20250@gmail.com</a></p>
+                    <p><a href="mailto:utkarshsingh20250@gmail.com">utkarshsingh20250@gmail.com</a></p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">
                         <i class="fas fa-phone"></i>
                     </div>
                     <h4>Call Us</h4>
-                    <p><a href="tel:+916390864564">+91 7985897980</a></p>
+                    <p><a href="tel:+917985897980">+91 7985897980</a></p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">
@@ -638,8 +649,66 @@
         </div>
     </div>
 
-    <script src="assets/js/main.js"></script>
+    <!-- JavaScript -->
     <script>
+        // Mobile Navigation (Same as main.js but simplified for contact page)
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const navbar = document.getElementById('navbar');
+
+        function toggleMobileMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = hamburger.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', toggleMobileMenu);
+        menuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+
+        // ESC key to close mobile menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        // Prevent mobile menu from closing when clicking inside it
+        mobileMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
         // Form submission handling
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -655,7 +724,7 @@
             // Create email content
             const emailSubject = `🧠 MediMate Contact: ${subject} - ${firstName} ${lastName}`;
             const emailBody = `
-Hello Rahul Singh,
+Hello Utkarsh Singh & Md Nasheet Khan,
 
 You have received a new message through your Mental Health ChatBot website contact form.
 
@@ -680,7 +749,7 @@ ${firstName} ${lastName}
             `.trim();
             
             // Create mailto link
-            const mailtoLink = `mailto:rahulsingh12022002@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            const mailtoLink = `mailto:utkarshsingh20250@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
             
             // Show success message with animation
             const successMessage = document.getElementById('successMessage');
@@ -715,6 +784,12 @@ ${firstName} ${lastName}
                 submitBtn.disabled = false;
             }, 5000);
         });
+
+        console.log('🧠 MediMate Contact Page - Responsive Navigation Loaded');
     </script>
+
+    <!-- Chatbot Integration -->
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2024/12/09/16/20241209163740-TREE9QK9.js"></script>
 </body>
 </html>
