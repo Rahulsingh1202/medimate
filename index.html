@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMate - AI Mental Health Support | 24/7 Care</title>
+    <meta name="description" content="Professional AI-powered mental health support. Get 24/7 assistance for anxiety, depression, and mental wellness with our advanced chatbot technology.">
+    <meta name="keywords" content="mental health, AI chatbot, anxiety support, depression help, 24/7 mental health, therapy bot, wellness">
+    <meta name="author" content="Utkarsh Singh, Md. Nasheet Khan">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="MediMate - AI Mental Health Support">
+    <meta property="og:description" content="Professional AI-powered mental health support available 24/7">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/images/MediMate-preview.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MediMate</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <div class="nav-section">
+                    <h4><i class="fas fa-users"></i> Developers</h4>
+                    <div class="dev-cards">
+                        <div class="dev-card">
+                            <div class="dev-avatar">U</div>
+                            <span>Utkarsh Singh</span>
+                        </div>
+                        <div class="dev-card">
+                            <div class="dev-avatar">M</div>
+                            <span>Md Nasheet Khan</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <h4><i class="fas fa-phone"></i> Contact Info</h4>
+                    <div class="contact-items">
+                        <a href="mailto:rahulsingh12022002@gmail.com" class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>utkarshsingh20250@gmail.com</span>
+                        </a>
+                        <a href="tel:+916390864564" class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 7985897980</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <h4><i class="fas fa-link"></i> Quick Links</h4>
+                    <div class="nav-links">
+                        <a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+                        <a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+                        <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-sparkles"></i>
+                        <span>AI-Powered Mental Health Support</span>
+                    </div>
+                    <h1 class="hero-title">
+                        Your Mind Deserves 
+                        <span class="gradient-text">Professional Care</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Experience the future of mental health support with our advanced AI chatbot. 
+                        Get personalized guidance, coping strategies, and 24/7 emotional support.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="24">0</div>
+                            <div class="stat-label">Hours Available</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="10000">0</div>
+                            <div class="stat-label">Users Helped</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="95">0</div>
+                            <div class="stat-label">Satisfaction Rate</div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="startChat()">
+                            <i class="fas fa-comments"></i>
+                            Start Conversation
+                        </button>
+                        <a href="contact.html" class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i>
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-image-container">
+                        <div class="floating-icons">
+                            <div class="icon-orbit icon-1"><i class="fas fa-heart"></i></div>
+                            <div class="icon-orbit icon-2"><i class="fas fa-brain"></i></div>
+                            <div class="icon-orbit icon-3"><i class="fas fa-smile"></i></div>
+                            <div class="icon-orbit icon-4"><i class="fas fa-hands-helping"></i></div>
+                        </div>
+                        <div class="central-illustration">
+                            <div class="brain-container">
+                                <i class="fas fa-brain brain-icon"></i>
+                                <div class="pulse-rings">
+                                    <div class="pulse-ring ring-1"></div>
+                                    <div class="pulse-ring ring-2"></div>
+                                    <div class="pulse-ring ring-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-star"></i>
+                        <span>Why Choose Our Platform</span>
+                    </div>
+                    <h2 class="section-title">Advanced AI Technology for Mental Wellness</h2>
+                    <p class="section-subtitle">
+                        Discover how our cutting-edge AI chatbot revolutionizes mental health support
+                        with personalized, accessible, and professional care.
+                    </p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI Chatbots</h3>
+                        <p>
+                            Intelligent programs designed to simulate human conversation using advanced
+                            machine learning algorithms for natural, empathetic interactions.
+                        </p>
+                        <div class="feature-benefits">
+                            <span class="benefit-tag">24/7 Availability</span>
+                            <span class="benefit-tag">Natural Language</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart-pulse"></i>
+                        </div>
+                        <h3>Mental Health Support</h3>
+                        <p>
+                            Comprehensive mental health assistance providing coping strategies, 
+                            mindfulness exercises, and resources for professional help when needed.
+                        </p>
+                        <div class="feature-benefits">
+                            <span class="benefit-tag">Evidence-Based</span>
+                            <span class="benefit-tag">Personalized</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <i class="fas fa-cloud-rain"></i>
+                        </div>
+                        <h3>Depression Support</h3>
+                        <p>
+                            Specialized resources for managing depression with evidence-based techniques,
+                            mood tracking, and gentle guidance toward professional treatment.
+                        </p>
+                        <div class="feature-benefits">
+                            <span class="benefit-tag">Mood Tracking</span>
+                            <span class="benefit-tag">CBT Techniques</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h3>Anxiety Management</h3>
+                        <p>
+                            Effective anxiety reduction through mindfulness techniques, breathing exercises,
+                            and cognitive behavioral therapy strategies.
+                        </p>
+                        <div class="feature-benefits">
+                            <span class="benefit-tag">Breathing Exercises</span>
+                            <span class="benefit-tag">Mindfulness</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Section -->
+        <section class="demo-section">
+            <div class="container">
+                <div class="demo-content">
+                    <div class="demo-info">
+                        <h2>Try Our AI Assistant</h2>
+                        <p>Experience how our mental health chatbot can provide immediate support and guidance.</p>
+                        <div class="demo-features">
+                            <div class="demo-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Instant Response</span>
+                            </div>
+                            <div class="demo-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Confidential & Safe</span>
+                            </div>
+                            <div class="demo-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Available 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-chat">
+                        <div class="chat-container">
+                            <div class="chat-header">
+                                <div class="chat-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="chat-info">
+                                    <h4>MediMate Assistant</h4>
+                                    <span class="online-status">
+                                        <i class="fas fa-circle"></i>
+                                        Online
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message bot-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>Hello! I'm here to support your mental health journey. How are you feeling today?</p>
+                                        <span class="message-time">Just now</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Type your message..." id="chatInput">
+                                <button onclick="sendMessage()" class="send-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <div class="cta-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h2>Ready to Start Your Journey?</h2>
+                    <p>Take the first step towards better mental health with our AI-powered support system.</p>
+                    <div class="cta-actions">
+                        <a href="contact.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-envelope"></i>
+                            Contact Our Team
+                        </a>
+                        <button class="btn btn-secondary btn-large" onclick="startChat()">
+                            <i class="fas fa-comments"></i>
+                            Start Chat Now
+                        </button>
+                    </div>
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>HIPAA Compliant</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="fas fa-lock"></i>
+                            <span>End-to-End Encrypted</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="fas fa-award"></i>
+                            <span>Clinically Validated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>MediMate</span>
+                    </div>
+                    <p>Empowering minds through AI technology and compassionate care.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <a href="#home">Home</a>
+                        <a href="#about">About</a>
+                        <a href="contact.html">Contact</a>
+                        <a href="#privacy">Privacy Policy</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Support</h4>
+                        <a href="#help">Help Center</a>
+                        <a href="#crisis">Crisis Resources</a>
+                        <a href="#docs">Documentation</a>
+                        <a href="#community">Community</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <a href="mailto:utkarshsingh20250@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                            Email Us
+                        </a>
+                        <a href="tel:+917985897980">
+                            <i class="fas fa-phone"></i>
+                            Call Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MediMate - Mental Health & AI Chatbots. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Integration -->
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2024/12/09/16/20241209163740-TREE9QK9.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="./main.js"></script>
+</body>
+</html>
